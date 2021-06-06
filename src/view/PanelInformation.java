@@ -122,8 +122,8 @@ public class PanelInformation extends JPanel implements ActionListener {
 		 thread.start();
 	}
 	
-	public File getFileChoosed() {
-		return chooser!=null ? chooser.getSelectedFile():null;
+	public String getPathToFileChoosed() {
+		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
 	}
 
 	@Override

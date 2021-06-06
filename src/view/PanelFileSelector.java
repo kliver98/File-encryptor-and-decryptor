@@ -77,8 +77,8 @@ public class PanelFileSelector extends JPanel implements ActionListener {
 		return tmp+newString.reverse().toString();
 	}
 	
-	public File getFileChoosed() {
-		return chooser!=null ? chooser.getSelectedFile():null;
+	public String getPathToFileChoosed() {
+		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
 	}
 
 	@Override

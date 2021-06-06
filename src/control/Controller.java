@@ -1,7 +1,5 @@
 package control;
 
-import java.io.File;
-
 import model.Program;
 import view.Status;
 
@@ -13,11 +11,11 @@ public class Controller {
 		model = new Program();
 	}
 	
-	public String cipherFile(File file) {
+	public String cipherFile(String path) {
 		return Status.SUCCESS.toString();
 	}
 	
-	public String decipherFile(File file) {
+	public String decipherFile(String path) {
 		return Status.SUCCESS.toString();
 	}
 	

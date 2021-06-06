@@ -6,10 +6,8 @@ import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import control.Controller;
 
@@ -57,20 +55,22 @@ public class Main extends JFrame {
 	}
 	
 	public String cipherFile() {
-		if (pFileSelector.getFileChoosed()==null) {
+		String path = pFileSelector.getPathToFileChoosed();
+		if (path==null) {
 			showMessage("Seleccione un archivo válido.");
 			return null;
 		}
-		String status = controller.cipherFile(pFileSelector.getFileChoosed());
+		String status = controller.cipherFile(path);
 		return status;
 	}
 	
 	public String decipherFile() {
-		if (pInformation.getFileChoosed()==null) {
+		String path = pInformation.getPathToFileChoosed();
+		if (path==null) {
 			showMessage("Seleccione un archivo válido.");
 			return null;
 		}
-		String status = controller.decipherFile(pInformation.getFileChoosed());
+		String status = controller.decipherFile(path);
 		return status;
 	}
 	
