@@ -22,25 +22,46 @@ import javax.swing.SwingConstants;
 
 import control.Controller;
 
+@SuppressWarnings("serial")
 public class PanelInformation extends JPanel implements ActionListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Relation to button for load sha1 file
+	 */
 	private JButton btnLoadSHA1;
+	/**
+	 * Relation to label that shows text for sha1 found
+	 */
 	private JLabel lblPathSHA1;
+	/**
+	 * Relation to label for current status of application
+	 */
 	private JLabel lblCurrentStatus;
+	/**
+	 * Relation to text field that puts sha1 found in file charged
+	 */
 	private JTextField txtFieldSHA1;
+	/**
+	 * Relation to file chooser and get information of file selected
+	 */
 	private JFileChooser chooser;
+	/**
+	 * Relation to controller
+	 */
 	private Controller controller;
 	
+	/**
+	 * Constructor of panel that initialize and set relation with controller
+	 * @param Controller controller
+	 */
 	public PanelInformation(Controller controller) {
 		this.controller = controller;
 		init();
 	}
 	
+	/**
+	 * Method that initialize panel and load sub panels
+	 */
 	public void init() {
 		setLayout(new BorderLayout());
 		int[] dims = {20,10,10,10};
@@ -48,6 +69,9 @@ public class PanelInformation extends JPanel implements ActionListener {
 		loadPanel();
 	}
 	
+	/**
+	 * Method that load sub panels
+	 */
 	private void loadPanel() {
 		btnLoadSHA1 = new JButton(Constants.LOAD_SHA1);
 		btnLoadSHA1.setFont(new Font("Arial",Font.BOLD,14));
@@ -77,6 +101,10 @@ public class PanelInformation extends JPanel implements ActionListener {
 	    add(aux);
 	}
 	
+	/**
+	 * Method that allows open window to choose file and return file choosed
+	 * @return File file choosed or RuntimeException if no file were selected
+	 */
 	private File chooseFile() {
 		chooser = new JFileChooser("./");
 		chooser.setDialogTitle(Constants.LOAD_SHA1);
@@ -88,6 +116,11 @@ public class PanelInformation extends JPanel implements ActionListener {
 		throw new RuntimeException("No file selected");
 	}
 	
+	/**
+	 * Method to get first line of file selected
+	 * @param File file to read
+	 * @return String line readed
+	 */
 	private String getFirstLine(File file) {
 		String line = Constants.EXCEPTION+Constants.FILE_ERROR;
 		Scanner scanner = null;
@@ -103,6 +136,10 @@ public class PanelInformation extends JPanel implements ActionListener {
 		return line;
 	}
 	
+	/**
+	 * Method that set information of file sha1 founded
+	 * @param String text to put on
+	 */
 	private void changeLblPathSHA1(String text) {
 		Runnable runnable =
 		        () -> { 
@@ -122,10 +159,25 @@ public class PanelInformation extends JPanel implements ActionListener {
 		 thread.start();
 	}
 	
+	/**
+	 * Method to return path of file choosed
+	 * @return String path of file choosed
+	 */
 	public String getPathToFileChoosed() {
 		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
 	}
+	
+	/**
+	 * Method to get password when decipher
+	 * @return String password for decipher file
+	 */
+	public String getPasswordToDecipher() {
+		return txtFieldSHA1.getText();
+	}
 
+	/**
+	 * Method that its called when any button its pressed and calls its respective methods
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();

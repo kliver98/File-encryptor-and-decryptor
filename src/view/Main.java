@@ -14,11 +14,26 @@ import control.Controller;
 @SuppressWarnings("serial")
 public class Main extends JFrame {
 	
+	/**
+	 * Relation with panel to choose a file to cipher or decipher
+	 */
 	private PanelFileSelector pFileSelector;
+	/**
+	 * Relation with panel to show cipher or decipher options
+	 */
 	private PanelOptions pOptions;
+	/**
+	 * Relation with panel to show information about current status of application and SHA1 hash loaded when decipher file
+	 */
 	private PanelInformation pInformation;
+	/**
+	 * Relation with controller class to handle connection between model and view
+	 */
 	private Controller controller;
 	
+	/**
+	 * Constructor that initialize application and panels
+	 */
 	public Main() {
 		
 		controller = new Controller();
@@ -35,6 +50,9 @@ public class Main extends JFrame {
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Method that initialize panels and shows them
+	 */
 	public void addPanels() {
 		
 		pFileSelector = new PanelFileSelector();
@@ -54,28 +72,43 @@ public class Main extends JFrame {
 		pack();
 	}
 	
+	/**
+	 * Method that call to controller for cipher file with path to file provided or null
+	 * @return string with status returned by model
+	 */
 	public String cipherFile() {
 		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
-			showMessage("Seleccione un archivo válido.");
+			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		String status = controller.cipherFile(path);
 		return status;
 	}
 	
+	/**
+	 * Method that call to controller for decipher file with [path to file provided or null] and [password to decipher file]
+	 * @return string with status returned by model
+	 */
 	public String decipherFile() {
 		String path = pInformation.getPathToFileChoosed();
+		String password = pInformation.getPasswordToDecipher();
 		if (path==null) {
-			showMessage("Seleccione un archivo válido.");
+			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
-		String status = controller.decipherFile(path);
+		String status = controller.decipherFile(path, password);
 		return status;
 	}
 	
-	private void showMessage(String message) {
-		JOptionPane.showMessageDialog(this, message, Status.ERROR.toString(), JOptionPane.ERROR_MESSAGE);
+	/**
+	 * Method to show personalized message window
+	 * @param string message to show
+	 * @param Status title to put in head window
+	 * @param int typeMessage to put image
+	 */
+	private void showMessage(String message, Status title, int typeMessage) {
+		JOptionPane.showMessageDialog(this, message, title.toString(), typeMessage);
 	}
 	
 	@SuppressWarnings("unused")

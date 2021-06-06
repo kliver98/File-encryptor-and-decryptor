@@ -9,27 +9,42 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class PanelOptions extends JPanel implements ActionListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Relation to button for cipher
+	 */
 	private JButton btnCipher;
+	/**
+	 * Relation to button for decipher
+	 */
 	private JButton btnDecipher;
+	/**
+	 * Relation to main window application
+	 */
 	private Main main;
 
+	/**
+	 * Constructor that set relation with main window and initialize this panel
+	 * @param Main main of application
+	 */
 	public PanelOptions(Main main) {
 		this.main = main;
 		init();
 	}
 	
+	/**
+	 * Initialize this panel and load panels inside
+	 */
 	public void init() {
 		setLayout(new BorderLayout());
 		loadPanel();
 	}
 	
+	/**
+	 * Load button and add listener and shows them
+	 */
 	private void loadPanel() {
 		btnCipher = new JButton(Constants.CIPHER);
 		btnCipher.setFont(new Font("Arial",Font.BOLD,14));
@@ -44,6 +59,9 @@ public class PanelOptions extends JPanel implements ActionListener {
 	    add(aux);
 	}
 
+	/**
+	 * Method that its called when any button its pressed and calls its respective methods
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();

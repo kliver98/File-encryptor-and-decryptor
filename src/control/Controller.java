@@ -15,7 +15,7 @@ public class Controller {
 		return Status.SUCCESS.toString();
 	}
 	
-	public String decipherFile(String path) {
+	public String decipherFile(String path, String password) {
 		return Status.SUCCESS.toString();
 	}
 	
