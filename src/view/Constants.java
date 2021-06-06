@@ -8,6 +8,7 @@ public class Constants {
 	public static final String SEARCH = "Seleccionar archivo";
 	public static final String PATH_TO_FILE = "Ruta: ";
 	public static final String EXCEPTION = "A ocurrido una excepción: ";
+	public static final String FILE_ERROR = "Esta dañado o no es leible";
 	public static final String CIPHER = "Cifrar";
 	public static final String DECIPHER = "Decifrar";
 	public static final String STATUS = "El estado actual es: ";

@@ -8,15 +8,19 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import control.Controller;
+
 @SuppressWarnings("serial")
 public class Main extends JFrame {
 	
 	private PanelFileSelector pFileSelector;
 	private PanelOptions pOptions;
 	private PanelInformation pInformation;
-//	private Controller controller;
+	private Controller controller;
 	
 	public Main() {
+		
+		controller = new Controller();
 		
 		this.setLayout(new BorderLayout());
 		Dimension dm = Toolkit.getDefaultToolkit().getScreenSize();
@@ -34,7 +38,7 @@ public class Main extends JFrame {
 		
 		pFileSelector = new PanelFileSelector();
 		pOptions = new PanelOptions();
-		pInformation = new PanelInformation();
+		pInformation = new PanelInformation(controller);
 		
 		JPanel aux = new JPanel(new BorderLayout());
 		int width = Constants.WIDTH;

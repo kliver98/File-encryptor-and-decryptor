@@ -10,6 +10,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import control.Controller;
 
 public class PanelInformation extends JPanel implements ActionListener {
 
@@ -31,8 +34,10 @@ public class PanelInformation extends JPanel implements ActionListener {
 	private JLabel lblCurrentStatus;
 	private JTextField txtFieldSHA1;
 	private JFileChooser chooser;
+	private Controller controller;
 	
-	public PanelInformation() {
+	public PanelInformation(Controller controller) {
+		this.controller = controller;
 		init();
 	}
 	
@@ -83,7 +88,39 @@ public class PanelInformation extends JPanel implements ActionListener {
 		throw new RuntimeException("No file selected");
 	}
 	
-	//TODO: Method that reads file and gets SHA-1 hash, then call down on first try-catch
+	private String getFirstLine(File file) {
+		String line = Constants.EXCEPTION+Constants.FILE_ERROR;
+		Scanner scanner = null;
+		try {			
+			scanner = new Scanner(file);
+			if (scanner.hasNextLine())
+				line = scanner.nextLine();
+		} catch(Exception err) {
+			return line;
+		} finally {			
+			scanner.close();
+		}
+		return line;
+	}
+	
+	private void changeLblPathSHA1(String text) {
+		Runnable runnable =
+		        () -> { 
+		        	try {
+						lblPathSHA1.setForeground(new Color(50, 106, 16));
+						lblPathSHA1.setText(text);
+						this.update(this.getGraphics());
+						Thread.sleep(3L * 1000L);
+					} catch(Exception err) {
+						System.out.println(err);
+					} finally {
+						lblPathSHA1.setForeground(Color.BLACK);
+						lblPathSHA1.setText(Constants.ORIGINAL_SHA1);
+					}
+		        };
+		 Thread thread = new Thread(runnable);
+		 thread.start();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -92,27 +129,17 @@ public class PanelInformation extends JPanel implements ActionListener {
 			File file = null;
 			try {				
 				file = chooseFile();
-				String path = file.getAbsolutePath();
-				txtFieldSHA1.setText(path);
-				StringSelection stringSelection = new StringSelection (path);
+				String hash = getFirstLine(file);
+				if (controller.isValidSHA1(hash))
+					txtFieldSHA1.setText(hash);
+				else {
+					txtFieldSHA1.setText(Constants.FILE_ERROR);
+					return;
+				}
+				StringSelection stringSelection = new StringSelection (hash);
 				Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
 				clpbrd.setContents (stringSelection, null);
-				Runnable runnable =
-				        () -> { 
-				        	try {
-								lblPathSHA1.setForeground(new Color(50, 106, 16));
-								lblPathSHA1.setText("Copied to clipboard");
-								this.update(this.getGraphics());
-								Thread.sleep(3L * 1000L);
-							} catch(Exception err) {
-								System.out.println(err);
-							} finally {
-								lblPathSHA1.setForeground(Color.BLACK);
-								lblPathSHA1.setText(Constants.ORIGINAL_SHA1);
-							}
-				        };
-				 Thread thread = new Thread(runnable);
-				 thread.start();
+				changeLblPathSHA1("Copied to clipboard");
 				
 			} catch(Exception err) {
 				System.out.println(Constants.EXCEPTION+err.getMessage());
