@@ -45,17 +45,12 @@ public class PanelInformation extends JPanel implements ActionListener {
 	 * Relation to file chooser and get information of file selected
 	 */
 	private JFileChooser chooser;
-	/**
-	 * Relation to controller
-	 */
-	private Controller controller;
 	
 	/**
 	 * Constructor of panel that initialize and set relation with controller
 	 * @param Controller controller
 	 */
-	public PanelInformation(Controller controller) {
-		this.controller = controller;
+	public PanelInformation() {
 		init();
 	}
 	
@@ -186,7 +181,7 @@ public class PanelInformation extends JPanel implements ActionListener {
 			try {				
 				file = chooseFile();
 				String hash = getFirstLine(file);
-				if (controller.isValidSHA1(hash))
+				if (Controller.isValidSHA1(hash))
 					txtFieldSHA1.setText(hash);
 				else {
 					txtFieldSHA1.setText(Constants.FILE_ERROR);

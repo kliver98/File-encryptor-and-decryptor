@@ -57,7 +57,7 @@ public class Main extends JFrame {
 		
 		pFileSelector = new PanelFileSelector();
 		pOptions = new PanelOptions(this);
-		pInformation = new PanelInformation(controller);
+		pInformation = new PanelInformation();
 		
 		JPanel aux = new JPanel(new BorderLayout());
 		int width = Constants.WIDTH;

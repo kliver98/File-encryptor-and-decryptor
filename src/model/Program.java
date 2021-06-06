@@ -6,8 +6,8 @@ public class Program {
 		
 	}
 	
-	public boolean isValidSHA1(String s) {
-	    return s.matches("^[a-fA-F0-9]{40}$");
+	public static boolean isValidSHA1(String hash) {
+	    return hash.matches("^[a-fA-F0-9]{40}$");
 	}
 	
 }
