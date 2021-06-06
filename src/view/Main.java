@@ -6,7 +6,10 @@ import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import control.Controller;
 
@@ -37,7 +40,7 @@ public class Main extends JFrame {
 	public void addPanels() {
 		
 		pFileSelector = new PanelFileSelector();
-		pOptions = new PanelOptions();
+		pOptions = new PanelOptions(this);
 		pInformation = new PanelInformation(controller);
 		
 		JPanel aux = new JPanel(new BorderLayout());
@@ -51,6 +54,28 @@ public class Main extends JFrame {
 		add(aux,BorderLayout.CENTER);
 		
 		pack();
+	}
+	
+	public String cipherFile() {
+		if (pFileSelector.getFileChoosed()==null) {
+			showMessage("Seleccione un archivo válido.");
+			return null;
+		}
+		String status = controller.cipherFile(pFileSelector.getFileChoosed());
+		return status;
+	}
+	
+	public String decipherFile() {
+		if (pInformation.getFileChoosed()==null) {
+			showMessage("Seleccione un archivo válido.");
+			return null;
+		}
+		String status = controller.decipherFile(pInformation.getFileChoosed());
+		return status;
+	}
+	
+	private void showMessage(String message) {
+		JOptionPane.showMessageDialog(this, message, Status.ERROR.toString(), JOptionPane.ERROR_MESSAGE);
 	}
 	
 	@SuppressWarnings("unused")

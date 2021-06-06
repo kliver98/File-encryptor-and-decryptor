@@ -18,8 +18,10 @@ public class PanelOptions extends JPanel implements ActionListener {
 	
 	private JButton btnCipher;
 	private JButton btnDecipher;
+	private Main main;
 
-	public PanelOptions() {
+	public PanelOptions(Main main) {
+		this.main = main;
 		init();
 	}
 	
@@ -46,9 +48,9 @@ public class PanelOptions extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		if (c.equals(Constants.CIPHER)) {
-			System.out.println(Constants.CIPHER);
+			main.cipherFile();
 		} else if(c.equals(Constants.DECIPHER)) {
-			System.out.println(Constants.DECIPHER);
+			main.decipherFile();
 		}
 	}
 	
