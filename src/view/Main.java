@@ -64,8 +64,8 @@ public class Main extends JFrame {
 		int height = Constants.HEIGHT;
 		aux.setBorder(BorderFactory.createEmptyBorder(height/8,width/10,height/15,width/10));
 		aux.add(pFileSelector,BorderLayout.NORTH);
-		aux.add(pOptions,BorderLayout.CENTER);
-		aux.add(pInformation,BorderLayout.SOUTH);
+		aux.add(pOptions,BorderLayout.SOUTH);
+		aux.add(pInformation,BorderLayout.CENTER);
 		
 		add(aux,BorderLayout.CENTER);
 		
@@ -94,6 +94,11 @@ public class Main extends JFrame {
 		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
 			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		String sha1 = pInformation.getSHA1();
+		if (sha1==null) {
+			showMessage("Carge archivo con el hash SHA1 original o digitelo.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		String password = showInputDialog(Constants.PASSWORD_TO_DECIPHER);

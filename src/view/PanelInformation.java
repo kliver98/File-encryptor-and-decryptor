@@ -85,7 +85,7 @@ public class PanelInformation extends JPanel implements ActionListener {
 	    JPanel aux3 = new JPanel(new GridLayout(1,1));
 	    
 	    txtFieldSHA1 = new JTextField();
-	    txtFieldSHA1.setEditable(false);
+	    txtFieldSHA1.setEditable(true);
 	    
 	    aux2.add(btnLoadSHA1);
 	    aux2.add(lblPathSHA1);
@@ -102,7 +102,11 @@ public class PanelInformation extends JPanel implements ActionListener {
 	 */
 	private File chooseFile() {
 		chooser = new JFileChooser("./");
-		chooser.setDialogTitle(Constants.LOAD_SHA1);
+		String dialogTitle = Constants.LOAD_SHA1;
+		dialogTitle.replace("<html>", "");
+		dialogTitle.replace("</html>", "");
+		dialogTitle.replace("<br>", "");
+		chooser.setDialogTitle(dialogTitle);
 		int option = chooser.showOpenDialog(this);
 		if (option == JFileChooser.APPROVE_OPTION) {
 			return chooser.getSelectedFile();
@@ -160,6 +164,11 @@ public class PanelInformation extends JPanel implements ActionListener {
 	 */
 	public String getPathToFileChoosed() {
 		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
+	}
+	
+	public String getSHA1() {
+		String text = txtFieldSHA1.getText();
+		return text.isEmpty() || text.isBlank() || text==null ? null:text;
 	}
 
 	/**
