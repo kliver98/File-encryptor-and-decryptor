@@ -161,14 +161,6 @@ public class PanelInformation extends JPanel implements ActionListener {
 	public String getPathToFileChoosed() {
 		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
 	}
-	
-	/**
-	 * Method to get password when decipher
-	 * @return String password for decipher file
-	 */
-	public String getPasswordToDecipher() {
-		return txtFieldSHA1.getText();
-	}
 
 	/**
 	 * Method that its called when any button its pressed and calls its respective methods

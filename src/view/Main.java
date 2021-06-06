@@ -91,14 +91,28 @@ public class Main extends JFrame {
 	 * @return string with status returned by model
 	 */
 	public String decipherFile() {
-		String path = pInformation.getPathToFileChoosed();
-		String password = pInformation.getPasswordToDecipher();
+		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
 			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
+		String password = showInputDialog(Constants.PASSWORD_TO_DECIPHER);
+		if (password==null) {
+			showMessage("Digite contraseña.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
 		String status = controller.decipherFile(path, password);
 		return status;
+	}
+	
+	/**
+	 * Method to show a input dialog and user type information
+	 * @param String message to be shown
+	 * @return String with what user types
+	 */
+	private String showInputDialog(String message) {
+		Object response = JOptionPane.showInputDialog(null, message);
+		return response!=null ? response.toString():null;
 	}
 	
 	/**
