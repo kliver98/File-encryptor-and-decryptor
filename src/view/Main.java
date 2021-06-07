@@ -76,38 +76,74 @@ public class Main extends JFrame {
 	 * Method that call to controller for cipher file with path to file provided or null
 	 * @return string with status returned by model
 	 */
-	public String cipherFile() {
+	public void cipherFile() {
 		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
 			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
-			return null;
+			return;
 		}
-		String status = controller.cipherFile(path);
-		return status;
+		String password = showInputDialog(Constants.INFORMATION_PASSWORD);
+		if (password==null) {
+			showMessage("Digite contraseña.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		callMethodAsynchronously(1, new String[] {path, password});
 	}
 	
 	/**
 	 * Method that call to controller for decipher file with [path to file provided or null] and [password to decipher file]
 	 * @return string with status returned by model
 	 */
-	public String decipherFile() {
+	public void decipherFile() {
 		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
 			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
-			return null;
+			return;
 		}
 		String sha1 = pInformation.getSHA1();
 		if (sha1==null) {
 			showMessage("Carge archivo con el hash SHA1 original o digitelo.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
-			return null;
+			return;
 		}
-		String password = showInputDialog(Constants.PASSWORD_TO_DECIPHER);
+		String password = showInputDialog(Constants.INFORMATION_PASSWORD);
 		if (password==null) {
 			showMessage("Digite contraseña.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
-			return null;
+			return;
 		}
-		String status = controller.decipherFile(path, password);
-		return status;
+		callMethodAsynchronously(2, new String[] {path,password, pInformation.getSHA1()});
+	}
+	
+	/**
+	 * Method that call cipher or decipher with information provided
+	 * @param int method to know which method to call
+	 * @param String array info to pass data on calling methods - 0:path of file, 1:password of file, 2:sha1 provided
+	 */
+	private void callMethodAsynchronously(int method, String[] info) {
+		Runnable runnable = null;
+		if (method == 1) {
+			runnable = () -> { 
+				String status = "";
+	        	try {
+	        		status = controller.cipherFile(info[0], info[1]);
+	        		showMessage(status, Status.DONE, JOptionPane.INFORMATION_MESSAGE);
+				} catch(Exception err) {
+					showMessage(status, Status.ERROR, JOptionPane.ERROR_MESSAGE);
+				}
+	        };
+		} else if (method == 2) {
+			runnable = () -> { 
+				String status = "";
+	        	try {
+	        		status = controller.decipherFile(info[0], info[1], info[2]);
+	        		showMessage(status, Status.DONE, JOptionPane.INFORMATION_MESSAGE);
+				} catch(Exception err) {
+					showMessage(status, Status.ERROR, JOptionPane.ERROR_MESSAGE);
+				}
+	        };
+		}
+		
+		 Thread thread = new Thread(runnable);
+		 thread.start();
 	}
 	
 	/**

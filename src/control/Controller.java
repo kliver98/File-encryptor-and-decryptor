@@ -22,8 +22,8 @@ public class Controller {
 	 * @param String path of file to be cipher
 	 * @return String status if everything was good or has any problems
 	 */
-	public String cipherFile(String path) {
-		return Status.SUCCESS.toString();
+	public String cipherFile(String path, String password) {
+		return Status.WAITING.toString();
 	}
 	
 	/**
@@ -32,8 +32,8 @@ public class Controller {
 	 * @param String password to decipher
 	 * @return String status if everything was good or has any problems
 	 */
-	public String decipherFile(String path, String password) {
-		return Status.SUCCESS.toString();
+	public String decipherFile(String path, String password, String SHA1) {
+		return Status.WAITING.toString();
 	}
 	
 	/**

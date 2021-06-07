@@ -109,7 +109,7 @@ public class PanelFileSelector extends JPanel implements ActionListener {
 	 * @return String path of file choosed
 	 */
 	public String getPathToFileChoosed() {
-		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
+		return chooser!=null ? chooser.getSelectedFile()!=null ? chooser.getSelectedFile().getAbsolutePath():null:null;
 	}
 
 	/**

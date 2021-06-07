@@ -34,10 +34,6 @@ public class PanelInformation extends JPanel implements ActionListener {
 	 */
 	private JLabel lblPathSHA1;
 	/**
-	 * Relation to label for current status of application
-	 */
-	private JLabel lblCurrentStatus;
-	/**
 	 * Relation to text field that puts sha1 found in file charged
 	 */
 	private JTextField txtFieldSHA1;
@@ -76,13 +72,8 @@ public class PanelInformation extends JPanel implements ActionListener {
 		lblPathSHA1.setFont(new Font("Arial",Font.BOLD,13));
 		lblPathSHA1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		lblCurrentStatus = new JLabel(Constants.STATUS);
-		lblCurrentStatus.setFont(new Font("Arial",Font.PLAIN,13));
-		lblCurrentStatus.setHorizontalAlignment(SwingConstants.LEFT);
-		
 	    JPanel aux = new JPanel(new GridLayout(2,1));
 	    JPanel aux2 = new JPanel(new GridLayout(1,3));
-	    JPanel aux3 = new JPanel(new GridLayout(1,1));
 	    
 	    txtFieldSHA1 = new JTextField();
 	    txtFieldSHA1.setEditable(true);
@@ -90,9 +81,7 @@ public class PanelInformation extends JPanel implements ActionListener {
 	    aux2.add(btnLoadSHA1);
 	    aux2.add(lblPathSHA1);
 	    aux2.add(txtFieldSHA1);
-	    aux3.add(lblCurrentStatus);
 	    aux.add(aux2);
-	    aux.add(aux3);
 	    add(aux);
 	}
 	
