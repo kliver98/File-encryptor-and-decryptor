@@ -32,7 +32,7 @@ public class Controller {
 	 * @param String password to decipher
 	 * @return String status if everything was good or has any problems
 	 */
-	public String decipherFile(String path, String password, String SHA1) {
+	public String decipherFile(String path, String password, String pathToSHA1) {
 		return Status.WAITING.toString();
 	}
 	

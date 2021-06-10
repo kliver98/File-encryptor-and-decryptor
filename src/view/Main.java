@@ -79,12 +79,12 @@ public class Main extends JFrame {
 	public void cipherFile() {
 		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
-			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			showMessage("Seleccione un archivo valido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		String password = showInputDialog(Constants.INFORMATION_PASSWORD);
 		if (password==null) {
-			showMessage("Digite contraseña.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			showMessage("Digite contrasenia.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		callMethodAsynchronously(1, new String[] {path, password});
@@ -97,20 +97,20 @@ public class Main extends JFrame {
 	public void decipherFile() {
 		String path = pFileSelector.getPathToFileChoosed();
 		if (path==null) {
-			showMessage("Seleccione un archivo válido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			showMessage("Seleccione un archivo valido.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		String sha1 = pInformation.getSHA1();
-		if (sha1==null) {
-			showMessage("Carge archivo con el hash SHA1 original o digitelo.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+		String pathToSha1 = pInformation.getPathToFileChoosed();
+		if (pathToSha1==null) {
+			showMessage("Carge archivo con el hash SHA1 (y Salt) original.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		String password = showInputDialog(Constants.INFORMATION_PASSWORD);
 		if (password==null) {
-			showMessage("Digite contraseña.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
+			showMessage("Digite contrasenia.", Status.ERROR, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		callMethodAsynchronously(2, new String[] {path,password, pInformation.getSHA1()});
+		callMethodAsynchronously(2, new String[] {path,password, pathToSha1});
 	}
 	
 	/**

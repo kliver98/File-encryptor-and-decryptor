@@ -152,12 +152,7 @@ public class PanelInformation extends JPanel implements ActionListener {
 	 * @return String path of file choosed
 	 */
 	public String getPathToFileChoosed() {
-		return chooser!=null ? chooser.getSelectedFile().getAbsolutePath():null;
-	}
-	
-	public String getSHA1() {
-		String text = txtFieldSHA1.getText();
-		return text.isEmpty() || text.isBlank() || text==null ? null:text;
+		return chooser!=null ? chooser.getSelectedFile()!=null ? chooser.getSelectedFile().getAbsolutePath():null:null;
 	}
 
 	/**
