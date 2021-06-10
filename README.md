@@ -31,14 +31,23 @@ The program should have two options:
 Se dividio o realizo tres capas, igual a Modelo Vista Controlador.
 1. En la vista se uso swing con 3 paneles auxiliares y uno principal, con constantes para los botones y algunos mensajes. También estados de la aplicación.
 1. En el controlador se manejo la comunicación entre vista y modelo, también para que fuera más claro los métodos a usar.
-1. //Poner lo del modelo, tanto cifrar como decifrar
+1. Para el modelo se implementaron dos clases, una para conectar el modelo con el controlador y otra con los metodos a utilizar. Para encriptar y descencriptar se usaron librerias de java como java.security y javax.crypto.
 
 
 ## 2. Dificultades del proyecto.
 
 - Desconocimiento del paquete de encriptación de Java.
+- Implementacion de las librerias de java.security y javax.crypto.
+- Conectar el modelo con el controlador.
+- Recordar el manejo de archivos.
+- Recordar el manejo de la libreria java.swing.
 
 ## 3. Conclusiones.
 
 - El cifrado es útil para conservar información de forma segura y secreta. En especial cuando se utilizan métodos que evitan patrones en los archivos cifrados.
 - Es recomendable y necesario actualizar los métodos de cifrado, porque el poder computacional actual permite romper medianamente fácil este tipo de algoritmos.
+
+## 4. Trabajos futuros.
+
+- Controlar mejor las exepciones para que el usuario conozca posibles errores.
+- Realizar refactor en general.

@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,10 +15,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -214,22 +210,5 @@ public class Encrypt {
         dis.close();
         return toHex(resultByteArry);
     }
-	
-//	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
-//		//String p = "hola";
-//		
-//		//Encrypt pro = new Encrypt();
-//		
-//		//String pass = pro.generateKey(p);		
-//		
-//		//System.out.println(pass);
-//		//boolean matched = validatePassword("hola", pass);
-//		
-//		//pro.encrypt("C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt", p);
-//		//pro.decrypt("C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt.encrypted", p, "C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt.sha");
-//		
-//		
-//		//System.out.println(matched);
-//	}
 
 }
