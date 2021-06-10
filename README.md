@@ -23,3 +23,22 @@ The program should have two options:
 1. SHA1 hash of original file will be saved in same path as original file with .txt extension
 1. If only will be needed to decipher, there is no need to charge SHA1 hash. Otherwise you must charge the file with SHA1 hash or digit one
 1. At the end of the work for cipher or decipher, a message will be shown indicating the status
+
+<hr>
+
+## 1. ¿Cómo se hizo el programa?
+
+Se dividio o realizo tres capas, igual a Modelo Vista Controlador.
+1. En la vista se uso swing con 3 paneles auxiliares y uno principal, con constantes para los botones y algunos mensajes. También estados de la aplicación.
+1. En el controlador se manejo la comunicación entre vista y modelo, también para que fuera más claro los métodos a usar.
+1. //Poner lo del modelo, tanto cifrar como decifrar
+
+
+## 2. Dificultades del proyecto.
+
+- Desconocimiento del paquete de encriptación de Java.
+
+## 3. Conclusiones.
+
+- El cifrado es útil para conservar información de forma segura y secreta. En especial cuando se utilizan métodos que evitan patrones en los archivos cifrados.
+- Es recomendable y necesario actualizar los métodos de cifrado, porque el poder computacional actual permite romper medianamente fácil este tipo de algoritmos.
