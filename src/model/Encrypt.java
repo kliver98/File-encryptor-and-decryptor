@@ -21,7 +21,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -31,10 +30,8 @@ public class Encrypt {
 	public static final int ITERATIONS = 1000;
 	public static final int LENGTH = 128;
 	
-	private Program program;
-	
 	public Encrypt() {
-		program = new Program();
+		
 	}
 	
 	//Encrypt the password
@@ -95,76 +92,113 @@ public class Encrypt {
         return binary;
     }
 	
-	public void encrypt(String path, String password) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+	public String encrypt(String path, String password) {
+		String status = "Cifrado exitoso \nEn el mismo folder del archivo se encuentran los archivos cifrados";
+		BufferedWriter writer = null;
+		FileInputStream fileInputStream = null;
+		FileOutputStream fileOutputStream = null;
 		
-		String nkey = passEncrypt(password);
-		String[] parts = nkey.split(":");
-		
-        System.out.println(parts[1] + " salt generado encrypt");
-        
-        Key key = new SecretKeySpec(parts[2].getBytes(),"AES");
-
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE,key);
-        File file = new File(path);
-		
-		FileInputStream fileInputStream = new FileInputStream(file);
-        byte[] inputBytes = new byte[(int)file.length()];
-        fileInputStream.read(inputBytes);
-        
-        byte[] outputBytes = cipher.doFinal(inputBytes);
-        
-        File newFile = new File(path + ".encrypted");
-        File sha = new File(path + ".sha");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(sha));
-        writer.write(sha(path) + "\n" + parts[1]);
-        writer.close();
-        
-        FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-        fileOutputStream.write(outputBytes);
-        
-        
-        fileInputStream.close();
-        fileOutputStream.close();
+		try {
+			File file = new File(path);
+			if(!file.exists()) {
+				status = "No se pudo leer el archivo " + path;
+				throw new Exception(status);
+			} else if(password == null || password.isEmpty()) {
+				status = "Contrasenia no valida";
+				throw new Exception(status);
+			}
+			String nkey = passEncrypt(password);
+			String[] parts = nkey.split(":");
+			
+			//System.out.println(parts[1] + " salt generado encrypt");
+			
+			Key key = new SecretKeySpec(parts[2].getBytes(),"AES");
+			
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.ENCRYPT_MODE,key);
+			
+			fileInputStream = new FileInputStream(file);
+			byte[] inputBytes = new byte[(int)file.length()];
+			fileInputStream.read(inputBytes);
+			
+			byte[] outputBytes = cipher.doFinal(inputBytes);
+			
+			File newFile = new File(path + ".encrypted");
+			File sha = new File(path + ".sha");
+			writer = new BufferedWriter(new FileWriter(sha));
+			writer.write(sha(path) + "\n" + parts[1]);
+			
+			fileOutputStream = new FileOutputStream(newFile);
+			fileOutputStream.write(outputBytes);
+			
+			writer.close();
+			fileInputStream.close();
+			fileOutputStream.close();	
+		} catch (Exception e) {
+			status = "Ocurrio un error\n" + e.getMessage();
+		}
+		return status;
 	}
 	
-	public void decrypt(String pathFile, String password, String ogSha) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+	public String decrypt(String pathFile, String password, String ogSha) {
+		String status = "Descifrado exitoso \nEn el mismo folder del archivo se encuentra el archivo cifrado";
+		FileInputStream fileInputStream = null;
+		FileOutputStream fileOutputStream = null;
+		String decryptedSha = "";
+		String[] data = new String[2];
 		
-		File myObj = new File(ogSha);
-		String data = "";
-	    Scanner myReader = new Scanner(myObj);
-	    while (myReader.hasNextLine()) {
-	      data = myReader.nextLine();
-	      System.out.println(data);
-	    }
-	    myReader.close();
-
-        String keys = passEncryptWithSalt(password, data);
-        
-        Key key = new SecretKeySpec(keys.getBytes(),"AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE,key);
-        File file = new File(pathFile);
-		
-		FileInputStream fileInputStream = new FileInputStream(file);
-        byte[] inputBytes = new byte[(int)file.length()];
-        fileInputStream.read(inputBytes);
-        
-        byte[] outputBytes = cipher.doFinal(inputBytes);
-        
-        File newFile = new File(pathFile + ".decrypted");
-        
-        File sha = new File(pathFile + ".decrypted" + ".shanew");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(sha));
-        writer.write(sha(pathFile + ".decrypted"));
-        writer.close();
-        
-        FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-        fileOutputStream.write(outputBytes);
-        
-        fileInputStream.close();
-        fileOutputStream.close();
-		
+		try {
+			File file = new File(pathFile);
+			if(!file.exists()) {
+				status = "No se pudo leer el archivo " + pathFile;
+				throw new Exception(status);
+			} else if(password == null || password.isEmpty()) {
+				status = "Contrasenia no valida";
+				throw new Exception(status);
+			}
+			File myObj = new File(ogSha);
+			if(!myObj.exists()) {
+				status = "No se pudo leer el archivo " + ogSha;
+				throw new Exception(status);
+			}
+			Scanner myReader = new Scanner(myObj);
+			//sha-1
+			data[0] = myReader.nextLine();
+			//salt
+			data[1] = myReader.nextLine();
+			
+			myReader.close();
+			
+			String keys = passEncryptWithSalt(password, data[1]);
+			
+			Key key = new SecretKeySpec(keys.getBytes(),"AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.DECRYPT_MODE,key);
+			
+			fileInputStream = new FileInputStream(file);
+			byte[] inputBytes = new byte[(int)file.length()];
+			fileInputStream.read(inputBytes);
+			
+			byte[] outputBytes = cipher.doFinal(inputBytes);
+			
+			File newFile = new File(pathFile + ".decrypted");
+			
+			fileOutputStream = new FileOutputStream(newFile);
+			fileOutputStream.write(outputBytes);
+			
+			fileInputStream.close();
+			fileOutputStream.close();
+			
+			decryptedSha = sha(pathFile + ".decrypted");
+			
+		} catch (Exception e) {
+			status = "Ocurrio un error\n" + e.getMessage();
+			return status;
+		}
+		if(decryptedSha.equals(data[0])) {
+			status += "\nLos codigos SHA-1 son iguales\n" + data[0];
+		}
+		return status;
 	}
 	
 	//SHA-1 of a file
@@ -177,24 +211,25 @@ public class Encrypt {
         while (dis.read(bytes) > 0);
 
         byte[] resultByteArry = md.digest();
+        dis.close();
         return toHex(resultByteArry);
     }
 	
-	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
-		String p = "hola";
-		
-		Encrypt pro = new Encrypt();
-		
-		//String pass = pro.generateKey(p);		
-		
-		//System.out.println(pass);
-		//boolean matched = validatePassword("hola", pass);
-		
-		pro.encrypt("C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt", p);
-		pro.decrypt("C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt.encrypted", p, "C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt.sha");
-		
-		
-		//System.out.println(matched);
-	}
+//	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
+//		//String p = "hola";
+//		
+//		//Encrypt pro = new Encrypt();
+//		
+//		//String pass = pro.generateKey(p);		
+//		
+//		//System.out.println(pass);
+//		//boolean matched = validatePassword("hola", pass);
+//		
+//		//pro.encrypt("C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt", p);
+//		//pro.decrypt("C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt.encrypted", p, "C:\\Users\\Txus5\\Documents\\_universidad\\Semestre 8\\Seguridad\\proyecto_final\\qweqwe.txt.sha");
+//		
+//		
+//		//System.out.println(matched);
+//	}
 
 }

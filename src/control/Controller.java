@@ -23,7 +23,9 @@ public class Controller {
 	 * @return String status if everything was good or has any problems
 	 */
 	public String cipherFile(String path, String password) {
-		return Status.WAITING.toString();
+		String status = model.cipherFile(path, password); 
+	
+		return status.isEmpty() ? Status.ERROR.toString() : status;
 	}
 	
 	/**
@@ -33,7 +35,8 @@ public class Controller {
 	 * @return String status if everything was good or has any problems
 	 */
 	public String decipherFile(String path, String password, String pathToSHA1) {
-		return Status.WAITING.toString();
+		String status = model.decipherFile(path, password, pathToSHA1);
+		return status.isEmpty() ? Status.ERROR.toString() : status;
 	}
 	
 	/**
